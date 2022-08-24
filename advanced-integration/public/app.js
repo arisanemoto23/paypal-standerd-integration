@@ -108,8 +108,8 @@ if (paypal.HostedFields.isEligible()) {
               "card-billing-address-country"
             ).value,
           },
-        })
-        .then(() => {
+          vault: document.querySelector('#vault').checked,
+        }).then(() => {
           fetch(`/api/orders/${orderId}/capture`, {
             method: "post",
           })
@@ -140,5 +140,5 @@ if (paypal.HostedFields.isEligible()) {
   });
 } else {
   // Hides card fields if the merchant isn't eligible
-  document.querySelector("#card-form").style = "display: none";
+  document.querySelector("#card-form").style = "display: block";
 }

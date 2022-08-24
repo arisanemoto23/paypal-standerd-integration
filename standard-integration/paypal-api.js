@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 const { CLIENT_ID, APP_SECRET } = process.env;
-const base = "https://api-m.sandbox.paypal.com";
+const base = "https://api-m.paypal.com";
 
 export async function createOrder() {
   const accessToken = await generateAccessToken();
@@ -17,12 +17,26 @@ export async function createOrder() {
       purchase_units: [
         {
           amount: {
-            currency_code: "USD",
-            value: "100.00",
+            currency_code: "JPY",
+            value: "10",
           },
         },
       ],
     }),
+  });
+
+  return handleResponse(response);
+}
+
+export async function getOrder(orderId) {
+  const accessToken = await generateAccessToken();
+  const url = `${base}/v2/checkout/orders/${orderId}`;
+  const response = await fetch(url, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    }
   });
 
   return handleResponse(response);

@@ -15,9 +15,21 @@ app.post("/api/orders", async (req, res) => {
   }
 });
 
+app.get(`/api/orders/:orderID`, async (req, res) => {
+  const { orderID } = req.params;
+  try {
+  const getData = await paypal.getOrder(orderID);
+  res.json(getData);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 app.post("/api/orders/:orderID/capture", async (req, res) => {
   const { orderID } = req.params;
   try {
+    const getData = await paypal.getOrder(orderID);
+    console.log(getData);
     const captureData = await paypal.capturePayment(orderID);
     res.json(captureData);
   } catch (err) {
